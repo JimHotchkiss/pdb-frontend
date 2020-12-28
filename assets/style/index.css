@@ -1,0 +1,151 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+
+
+  #splash-page-container {
+      height: 100%;
+  }
+
+  #splash-page-container.splash-page-hide {
+    display: none;
+}
+  .splash-img {
+    width: 320px;
+    height: 180px;
+    margin: auto;
+    margin-top: 150px;
+    background: #fff url("../img/map.png") 0% 0% no-repeat padding-box;
+    opacity: 1;
+    background-size: 320px;
+  }
+
+  .splash-line-div {
+      height: 5px;
+      width: 320px;
+      margin: 0 auto;
+      margin-top: 12px;
+      background: #E5383B;
+  }
+
+  .splash-title-text {
+    font-size: 34px;
+    text-align: center;
+    color: #E5383B;
+    margin-top: 12px;
+  }
+
+  .splash-title-subtext {
+    font-size: 10px;
+    text-align: center;
+  }
+
+  /* PDB Body */
+  .home-page {
+      display: none;
+  }
+
+  .home-page.home-page-show {
+      display: flex;
+      flex-direction: column;
+  }
+  .navbar {
+      display: flex;
+      flex-direction: row;
+      height: 70px;
+      width: 100%;
+      border-bottom: 1px solid #B1A7A6;
+  }
+
+  #menu-div {
+      margin-top: 25px;
+      margin-left: 25px;
+  }
+
+  .menu-top {
+      height: 3px;
+      width: 13px;
+      margin-top: 4px;
+      margin-bottom: 5px;
+      background: #161A1D;
+      transition: 0.4s;
+  }
+
+  .menu-middle {
+    height: 3px;
+    width: 18px;
+    margin-bottom: 5px;
+    background: #161A1D;
+    transition: 0.4s;
+}
+
+.menu-bottom {
+    height: 3px;
+    width: 27px;
+    background: #161A1D;
+    transition: 0.4s;
+}
+
+/* Menu Hover*/
+.menu-top.menu-hover {
+    width: 27px;
+    transition: 0.4s;
+}
+
+.menu-middle.menu-hover {
+    width: 27px;
+    transition: 0.4s;
+}
+
+.menu-bottom.menu-hover {
+    width: 27px;
+    transition: 0.4s;
+}
+
+
+  .nav-title-div {
+      margin-left: 23%;
+      text-align: center;
+  }
+
+  .nav-title-text {
+      font-size: 34px;
+      color: #E5383B;
+      padding-top: 12px;
+  }
+
+  .nav-title-subtext {
+      font-size: 10px;
+      color: #B1A7A6;
+  }
+
+  .nav-search-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    margin-top: 25px;
+    margin-right: 25px;
+    background: #fff url("../img/search-solid.svg") 0% 0% no-repeat padding-box;
+    opacity: 1;
+    background-size: 20px;
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+    background-size: 100px;
+  }
+
+  .headline-container {
+      display: flex;
+      margin: 12px 0px;
+      padding-left: 12px;
+  }
+
+  .story-text-div {
+      font-size: 14px;
+      padding: 8px 16px;
+  }
