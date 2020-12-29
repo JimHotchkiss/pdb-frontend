@@ -55,15 +55,29 @@ body {
   .navbar {
       display: flex;
       flex-direction: row;
+      overflow: hidden;
+      position: fixed;
+      background-color: #fff;;
+      top: 0;
+      z-index: 1000;
       height: 70px;
       width: 100%;
       border-bottom: 1px solid #B1A7A6;
+  }
+
+  #news-body {
+      position: relative;
+      margin-top: 84px;
   }
 
   #menu-div {
       margin-top: 25px;
       margin-left: 25px;
   }
+
+  #menu-div:hover {
+    cursor: pointer;
+}
 
   .menu-top {
       height: 3px;
@@ -137,15 +151,46 @@ body {
     width: 100px;
     height: 100px;
     background-size: 100px;
+    border: 1px solid #B1A7A6
   }
 
   .headline-container {
       display: flex;
-      margin: 12px 0px;
+      margin: 16px 0px;
       padding-left: 12px;
+      
   }
 
-  .story-text-div {
+  .date-div {
+      font-size: 10px;
+      font-weight: 200;
+      padding-left: 16px;
+      color: #E5383B
+  }
+
+  .story-text {
       font-size: 14px;
-      padding: 8px 16px;
+      font-weight: 700;
+      padding: 4px 16px;
+  }
+
+  .story-text:hover {
+    cursor: pointer;
+}
+
+  .provider {
+    font-size: 10px;
+      font-weight: 100;
+      color: #B1A7A6;
+      padding-left: 16px;  
+      margin-top: 8px;
+  }
+
+  .border-div {
+      width: 70%;
+      height: 1px;
+      margin: 0px auto;
+      background-color: #A4161A;
+      opacity: 0.19;
+      
   }

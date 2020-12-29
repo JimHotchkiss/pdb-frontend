@@ -3,14 +3,21 @@ window.addEventListener("load", (event) => {
   menuMouseOutHover()
   //   fetchUserData()
   accessLocalStorage()
-  //   localStorage.clear()
+  // localStorage.clear()
+  // clearNewBodyHtml()
 
-  //   fetchHeadlineData()
+  // fetchHeadlineData()
   setTimeout(() => {
+    accessLocalStorage()
     hideSplashPage()
     showHomePage()
   }, 3000)
 })
+
+const clearNewBodyHtml = () => {
+  const newsBody = document.getElementById("news-body")
+  newsBody.innerText = ""
+}
 
 const accessLocalStorage = () => {
   const headlines = Headlines.getHeadlinesArray()
@@ -18,12 +25,14 @@ const accessLocalStorage = () => {
   const newsBody = document.getElementById("news-body")
   let imgUrl
 
-  for (let item of headlines) {
+  for (let item in headlines) {
     const headlineContainer = document.createElement("div")
     headlineContainer.setAttribute("class", "headline-container")
-    if (item.image !== undefined) {
-      console.log(item.image)
-      imgUrl = item.image.thumbnail.contentUrl
+    if (item == 0) {
+      headlineContainer.setAttribute("id", "headline-container-first")
+    }
+    if (headlines[item].image !== undefined) {
+      imgUrl = headlines[item].image.thumbnail.contentUrl
     } else {
       imgUrl = "./assets/img/no-image.jpg"
     }
@@ -37,16 +46,36 @@ const accessLocalStorage = () => {
     storyTextDiv.setAttribute("class", "story-text-div")
     const storyText = document.createElement("div")
     storyText.setAttribute("class", "story-text")
-    storyText.innerText = item.name
+    const date = headlines[item].datePublished
+
+    const event = new Date(date)
+    let stringEvent = event.toString()
+
+    stringEvent = stringEvent.split(" ").slice(0, 4).join(" ")
+    console.log(headlines[item])
+
+    const dateDiv = document.createElement("div")
+    dateDiv.setAttribute("class", "date-div")
+    dateDiv.innerText = `Date: ${stringEvent}`
+
+    const borderDiv = document.createElement("div")
+    borderDiv.setAttribute("class", "border-div")
+
+    storyText.innerText = headlines[item].name.substring(0, 70) + "..."
+    const provider = document.createElement("div")
+    provider.setAttribute("class", "provider")
+    provider.innerText = `Source: ${headlines[item].provider[0].name}`
+    storyTextDiv.appendChild(dateDiv)
     storyTextDiv.appendChild(storyText)
+    storyTextDiv.appendChild(provider)
     headlineContainer.appendChild(storyTextDiv)
 
     newsBody.appendChild(headlineContainer)
-    // console.log("item provider:", item.provider[0].name)
-    console.log("item provider:", item.name)
+    newsBody.appendChild(borderDiv)
   }
 }
 
+const configFile = config.MY_KEY
 const URL =
   "https://bing-news-search1.p.rapidapi.com/news?safeSearch=Off&textFormat=Raw"
 
@@ -55,7 +84,7 @@ const fetchHeadlineData = () => {
     method: "GET",
     headers: {
       "x-bingapis-sdk": "true",
-      "x-rapidapi-key": "66c41eb2b5msh73e529070e498c5p13b8b5jsnca0466f826e3",
+      "x-rapidapi-key": configFile,
       "x-rapidapi-host": "bing-news-search1.p.rapidapi.com",
     },
   })
