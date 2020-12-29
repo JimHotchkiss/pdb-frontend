@@ -1,8 +1,11 @@
 window.addEventListener("load", (event) => {
   menuMouseInHover()
   menuMouseOutHover()
+  navbarExpandListener()
   //   fetchUserData()
   accessLocalStorage()
+  searchIconListener()
+  closeSearchWindowListener()
   // localStorage.clear()
   // clearNewBodyHtml()
 
@@ -13,6 +16,30 @@ window.addEventListener("load", (event) => {
     showHomePage()
   }, 3000)
 })
+
+const closeSearchWindowListener = () => {
+  const closeSearchWindow = document.getElementById("search-window-close")
+  closeSearchWindow.addEventListener("click", () => {
+    const searchWindow = document.getElementById("search-window")
+    searchWindow.classList.remove("search-window-expand")
+  })
+}
+
+const searchIconListener = () => {
+  const searchIcon = document.getElementById("nav-search-icon")
+  searchIcon.addEventListener("click", () => {
+    const searchWindow = document.getElementById("search-window")
+    searchWindow.classList.add("search-window-expand")
+  })
+}
+
+const navbarExpandListener = () => {
+  const menuDiv = document.getElementById("menu-div")
+  menuDiv.addEventListener("click", () => {
+    const navBar = document.getElementById("navbar")
+    navBar.classList.toggle("navbar-expand")
+  })
+}
 
 const clearNewBodyHtml = () => {
   const newsBody = document.getElementById("news-body")
@@ -52,7 +79,6 @@ const accessLocalStorage = () => {
     let stringEvent = event.toString()
 
     stringEvent = stringEvent.split(" ").slice(0, 4).join(" ")
-    console.log(headlines[item])
 
     const dateDiv = document.createElement("div")
     dateDiv.setAttribute("class", "date-div")

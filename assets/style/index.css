@@ -53,8 +53,6 @@ body {
       flex-direction: column;
   }
   .navbar {
-      display: flex;
-      flex-direction: row;
       overflow: hidden;
       position: fixed;
       background-color: #fff;;
@@ -63,7 +61,40 @@ body {
       height: 70px;
       width: 100%;
       border-bottom: 1px solid #B1A7A6;
+      transition: 0.3s;
   }
+
+  .navbar-info {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .navbar.navbar-expand {
+      height: 170px;
+      transition: 0.3s;
+  }
+
+  .navbar-submenu {
+     max-width: 130px;
+  }
+  .navbar-submenu p {
+      margin: 20px 0px 0px 24px;
+      color: #161A1D;
+      font-size: 14px;
+      font-weight: 100;
+      padding: 0;
+      opacity: 0.5;
+      transition: 0.3s;
+
+  }
+
+  .navbar-submenu p:hover {
+    cursor: pointer;
+    color: #E5383B;
+    transition: 0.3s;
+    opacity: 1;
+
+}
 
   #news-body {
       position: relative;
@@ -121,7 +152,8 @@ body {
 
 
   .nav-title-div {
-      margin-left: 23%;
+      position: fixed;
+      left: 140px;
       text-align: center;
   }
 
@@ -139,13 +171,49 @@ body {
   .nav-search-icon {
     width: 20px;
     height: 20px;
-    margin-left: auto;
-    margin-top: 25px;
-    margin-right: 25px;
+    position: fixed;
+    top: 25px;
+    left: 340px;
     background: #fff url("../img/search-solid.svg") 0% 0% no-repeat padding-box;
     opacity: 1;
     background-size: 20px;
   }
+
+  .nav-search-icon:hover {
+    cursor: pointer;
+  }
+
+  .search-window {
+      margin-left: auto;
+      margin-top: 12px;
+      width: 0px;
+      height: 50px;
+      background: #fff;
+      z-index: 1;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  }
+  .search-window:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+  .search-window.search-window-expand {
+    width: 300px;
+    transition: 0.3s;
+}
+
+#search-window-close {
+    padding-left: 260px;
+    margin-top: 18px;
+}
+
+#search-window-close:hover {
+    cursor: pointer;
+    color: #E5383B;
+    transition: 0.3s;
+}
+
+
 
   img {
     width: 100px;
