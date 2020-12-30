@@ -1,19 +1,19 @@
 window.addEventListener("load", (event) => {
   // localStorage.clear()
-  // clearNewBodyHtml()
+  clearNewBodyHtml()
   // fetchHeadlineData()
   accessLocalStorage()
 
   menuMouseInHover()
   menuMouseOutHover()
   navbarExpandListener()
+  bookMarkListener()
   //   fetchUserData()
 
   // searchIconListener()
   // closeSearchWindowListener()
 
   setTimeout(() => {
-    accessLocalStorage()
     hideSplashPage()
     showHomePage()
   }, 3000)
@@ -34,6 +34,16 @@ window.addEventListener("load", (event) => {
 //     searchWindow.classList.add("search-window-expand")
 //   })
 // }
+
+const bookMarkListener = () => {
+  bookMarkDivs = document.getElementsByClassName("bookmark-div")
+  for (let item of bookMarkDivs) {
+    item.addEventListener("click", (e) => {
+      const markedStoryId = e.target.dataset.id
+      findStory(markedStoryId)
+    })
+  }
+}
 
 const navbarExpandListener = () => {
   const menuDiv = document.getElementById("menu-div")
@@ -89,6 +99,7 @@ const accessLocalStorage = () => {
     // bookmark
     const bookMarkDiv = document.createElement("div")
     bookMarkDiv.setAttribute("class", "bookmark-div")
+    bookMarkDiv.setAttribute("data-id", item)
 
     const dateDiv = document.createElement("div")
     dateDiv.setAttribute("class", "date-div")
@@ -149,6 +160,50 @@ const hideSplashPage = () => {
 const showHomePage = () => {
   const homePage = document.getElementById("home-page")
   homePage.classList.add("home-page-show")
+}
+
+const findStory = (markedStoryId) => {
+  const headlines = Headlines.getHeadlinesArray()
+  let headLinesObj
+  for (let item in headlines) {
+    if (item === markedStoryId) {
+      headLinesObj = headlines[item]
+    }
+  }
+  // Assign image Url
+  let imageUlr
+  if (headLinesObj.image !== null) {
+    imageUrl = headLinesObj.image.thumbnail.contentUrl
+  } else {
+    imageUlr = "./assets/img/no-image.jpg"
+  }
+
+  // Create config object
+  const configObj = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      credentials: "same-origin",
+    },
+    body: JSON.stringify({
+      title: headLinesObj.name,
+      date_published: headLinesObj.datePublished,
+      description: headLinesObj.description,
+      image: imageUrl,
+      provider: headLinesObj.provider[0].name,
+      url: headLinesObj.url,
+    }),
+  }
+  postRequestFavorite(configObj)
+}
+
+const postRequestFavorite = (configObj) => {
+  // console.log(configObj.body)
+  const apiUrl = "http://localhost:3000/api/v1/favorites"
+  fetch(apiUrl, configObj)
+    .then((response) => response.json())
+    .then((data) => console.log(data))
 }
 
 // const fetchUserData = () => {
