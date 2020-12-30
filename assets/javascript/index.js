@@ -4,8 +4,8 @@ window.addEventListener("load", (event) => {
   navbarExpandListener()
   //   fetchUserData()
   accessLocalStorage()
-  searchIconListener()
-  closeSearchWindowListener()
+  // searchIconListener()
+  // closeSearchWindowListener()
   // localStorage.clear()
   // clearNewBodyHtml()
 
@@ -17,21 +17,21 @@ window.addEventListener("load", (event) => {
   }, 3000)
 })
 
-const closeSearchWindowListener = () => {
-  const closeSearchWindow = document.getElementById("search-window-close")
-  closeSearchWindow.addEventListener("click", () => {
-    const searchWindow = document.getElementById("search-window")
-    searchWindow.classList.remove("search-window-expand")
-  })
-}
+// const closeSearchWindowListener = () => {
+//   const closeSearchWindow = document.getElementById("search-window-close")
+//   closeSearchWindow.addEventListener("click", () => {
+//     const searchWindow = document.getElementById("search-window")
+//     searchWindow.classList.remove("search-window-expand")
+//   })
+// }
 
-const searchIconListener = () => {
-  const searchIcon = document.getElementById("nav-search-icon")
-  searchIcon.addEventListener("click", () => {
-    const searchWindow = document.getElementById("search-window")
-    searchWindow.classList.add("search-window-expand")
-  })
-}
+// const searchIconListener = () => {
+//   const searchIcon = document.getElementById("nav-search-icon")
+//   searchIcon.addEventListener("click", () => {
+//     const searchWindow = document.getElementById("search-window")
+//     searchWindow.classList.add("search-window-expand")
+//   })
+// }
 
 const navbarExpandListener = () => {
   const menuDiv = document.getElementById("menu-div")
