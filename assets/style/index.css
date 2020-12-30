@@ -70,15 +70,16 @@ body {
   }
 
   .navbar.navbar-expand {
-      height: 170px;
+      height: 155px;
       transition: 0.3s;
   }
 
   .navbar-submenu {
      max-width: 130px;
+     margin: 30px 0px 0px 24px;
   }
   .navbar-submenu p {
-      margin: 20px 0px 0px 24px;
+      
       color: #161A1D;
       font-size: 14px;
       font-weight: 100;
@@ -236,10 +237,31 @@ body {
       color: #E5383B
   }
 
+  .date-bookmark-div{
+    display:flex;
+  }
+
+  .bookmark-div {
+    width: 15px;
+    height: 20px;
+    margin-left: auto;
+    margin-right: 25px;
+    background: #fff url("../img/bookmark-regular.svg") 0% 0% no-repeat padding-box;
+    opacity: 0.3;
+    background-size: 15px;
+    transition: 0.3s;
+  }
+
+  .bookmark-div:hover {
+    cursor: pointer;
+    opacity: 1;
+    transition: 0.3s;
+  }
+
   .story-text {
       font-size: 14px;
       font-weight: 700;
-      padding: 4px 16px;
+      padding: 4px 24px 0px 16px; 
   }
 
   .story-text:hover {

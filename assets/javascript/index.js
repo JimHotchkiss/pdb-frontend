@@ -1,15 +1,17 @@
 window.addEventListener("load", (event) => {
+  // localStorage.clear()
+  // clearNewBodyHtml()
+  // fetchHeadlineData()
+  accessLocalStorage()
+
   menuMouseInHover()
   menuMouseOutHover()
   navbarExpandListener()
   //   fetchUserData()
-  accessLocalStorage()
+
   // searchIconListener()
   // closeSearchWindowListener()
-  // localStorage.clear()
-  // clearNewBodyHtml()
 
-  // fetchHeadlineData()
   setTimeout(() => {
     accessLocalStorage()
     hideSplashPage()
@@ -80,9 +82,21 @@ const accessLocalStorage = () => {
 
     stringEvent = stringEvent.split(" ").slice(0, 4).join(" ")
 
+    // date-bookmark-div
+    const dateBookMarkDiv = document.createElement("div")
+    dateBookMarkDiv.setAttribute("class", "date-bookmark-div")
+
+    // bookmark
+    const bookMarkDiv = document.createElement("div")
+    bookMarkDiv.setAttribute("class", "bookmark-div")
+
     const dateDiv = document.createElement("div")
     dateDiv.setAttribute("class", "date-div")
     dateDiv.innerText = `Date: ${stringEvent}`
+
+    // put date and book mark into date-bookmark-div
+    dateBookMarkDiv.appendChild(dateDiv)
+    dateBookMarkDiv.appendChild(bookMarkDiv)
 
     const borderDiv = document.createElement("div")
     borderDiv.setAttribute("class", "border-div")
@@ -91,7 +105,7 @@ const accessLocalStorage = () => {
     const provider = document.createElement("div")
     provider.setAttribute("class", "provider")
     provider.innerText = `Source: ${headlines[item].provider[0].name}`
-    storyTextDiv.appendChild(dateDiv)
+    storyTextDiv.appendChild(dateBookMarkDiv)
     storyTextDiv.appendChild(storyText)
     storyTextDiv.appendChild(provider)
     headlineContainer.appendChild(storyTextDiv)
