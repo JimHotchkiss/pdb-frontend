@@ -97,6 +97,7 @@ body {
 
 }
 
+
   .news-body {
       position: relative;
       margin-top: 84px;
@@ -297,6 +298,109 @@ body {
       height: 1px;
       margin: 0px auto;
       background-color: #A4161A;
-      opacity: 0.19;
-      
+      opacity: 0.19; 
   }
+
+  /* Login */
+
+  .login-div {
+    display: none;
+   
+  }
+
+  .login-div.login-div-show {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+  }
+
+  .login-form {
+    margin-top: 42px;
+  }
+
+  .login-title-div {
+    max-width: 70%;
+    margin: 0 auto;
+  }
+  .login-pdb-logo {
+    width: 220px;
+    height: 120px;
+    margin: 0 auto;
+    background: #fff url("../img/map.png") 0% 0% no-repeat padding-box;
+    opacity: 1;
+    background-size: 220px;
+  }
+
+  .login-label {
+    margin-bottom: 12px;
+    margin-left: 55px;
+    font-size: 16px;
+    font-weight: 100;
+    color: #E5383B
+  }
+
+  .login-title-text-div {
+    text-align: center;
+  }
+
+  .login-logo-text-divider {
+    height: 2px;
+    width:220px;
+    margin: auto;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    background: #E5383B;
+  }
+
+  .login-title-text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #E5383B
+  }
+
+  .login-title-subtext {
+    font-size: 10px;
+    font-weight: 100;
+    margin-top: 4px;
+    color: #B1A7A6
+  }
+
+ .username-div {
+   display: flex;
+   flex-direction: column;
+ }
+
+ .login-form-field {
+   padding: 12px;
+   width: 70%;
+   margin: 0 auto;
+   border: none;
+   border-bottom: 1px solid #B1A7A6;
+ }
+
+ .login-form-field:focus {
+   outline: none;
+ }
+
+ .password-div {
+   margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form-submit {
+  padding: 12px;
+  width: 78%;
+  margin-top: 32px;
+  margin-left: 45px;
+  border: none;
+  color: #fff;
+  background: #161A1D;
+  border-radius: 8px;
+}
+
+.login-form-submit:hover {
+  cursor: pointer;
+  
+}
+

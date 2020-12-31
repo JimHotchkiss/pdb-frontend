@@ -42,7 +42,13 @@ const showLoginListener = () => {
     hideNewBody()
     closeNavbarExpansion()
     resetMenu()
+    setTimeout(() => showLogin(), 200)
   })
+}
+
+const showLogin = () => {
+  const loginDiv = document.getElementById("login-div")
+  loginDiv.classList.add("login-div-show")
 }
 
 const resetMenu = () => {
