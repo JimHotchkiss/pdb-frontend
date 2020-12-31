@@ -9,6 +9,7 @@ window.addEventListener("load", (event) => {
   bookMarkListener()
 
   showLoginListener()
+  loginListener()
   //   fetchUserData()
 
   // searchIconListener()
@@ -19,6 +20,15 @@ window.addEventListener("load", (event) => {
     showHomePage()
   }, 3000)
 })
+
+const loginListener = () => {
+  const loginForm = document.getElementById("login-form")
+  const loginFormSubmit = document.getElementById("login-form-submit")
+  loginFormSubmit.addEventListener("click", (e) => {
+    e.preventDefault()
+    console.log(loginForm.username.value, loginForm.password.value)
+  })
+}
 
 // const closeSearchWindowListener = () => {
 //   const closeSearchWindow = document.getElementById("search-window-close")
