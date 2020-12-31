@@ -318,17 +318,17 @@ body {
     margin-top: 42px;
   }
 
-  .login-title-div {
+  /* .login-title-div {
     max-width: 70%;
     margin: 0 auto;
-  }
+  } */
   .login-pdb-logo {
-    width: 220px;
-    height: 120px;
+    width: 280px;
+    height: 160px;
     margin: 0 auto;
     background: #fff url("../img/map.png") 0% 0% no-repeat padding-box;
     opacity: 1;
-    background-size: 220px;
+    background-size: 280px;
   }
 
   .login-label {
@@ -345,7 +345,7 @@ body {
 
   .login-logo-text-divider {
     height: 2px;
-    width:220px;
+    width:280px;
     margin: auto;
     margin-top: 8px;
     margin-bottom: 8px;

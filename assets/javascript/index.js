@@ -42,7 +42,7 @@ const showLoginListener = () => {
     hideNewBody()
     closeNavbarExpansion()
     resetMenu()
-    setTimeout(() => showLogin(), 200)
+    showLogin()
   })
 }
 
