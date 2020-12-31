@@ -4,10 +4,11 @@ window.addEventListener("load", (event) => {
   // fetchHeadlineData()
   accessLocalStorage()
 
-  menuMouseInHover()
-  menuMouseOutHover()
   navbarExpandListener()
+  menuOnClick()
   bookMarkListener()
+
+  showLoginListener()
   //   fetchUserData()
 
   // searchIconListener()
@@ -35,14 +36,45 @@ window.addEventListener("load", (event) => {
 //   })
 // }
 
+const showLoginListener = () => {
+  const loginDiv = document.getElementById("login")
+  loginDiv.addEventListener("click", () => {
+    hideNewBody()
+    closeNavbarExpansion()
+    resetMenu()
+  })
+}
+
+const resetMenu = () => {
+  const menuDiv = document.getElementById("menu-div")
+  for (let item of menuDiv.children) {
+    item.classList.toggle("menu-hover")
+  }
+}
+
+const closeNavbarExpansion = () => {
+  const navBar = document.getElementById("navbar")
+  navBar.classList.remove("navbar-expand")
+}
+
+const hideNewBody = () => {
+  const newsBodyDiv = document.getElementById("news-body")
+  newsBodyDiv.classList.add("news-body-hide")
+}
+
 const bookMarkListener = () => {
   bookMarkDivs = document.getElementsByClassName("bookmark-div")
   for (let item of bookMarkDivs) {
     item.addEventListener("click", (e) => {
+      showBookmarkSelected(item)
       const markedStoryId = e.target.dataset.id
       findStory(markedStoryId)
     })
   }
+}
+
+const showBookmarkSelected = (item) => {
+  item.classList.toggle("bookmark-div-selected")
 }
 
 const navbarExpandListener = () => {
@@ -50,6 +82,15 @@ const navbarExpandListener = () => {
   menuDiv.addEventListener("click", () => {
     const navBar = document.getElementById("navbar")
     navBar.classList.toggle("navbar-expand")
+  })
+}
+
+const menuOnClick = () => {
+  const menuDiv = document.getElementById("menu-div")
+  menuDiv.addEventListener("click", () => {
+    for (let item of menuDiv.children) {
+      item.classList.toggle("menu-hover")
+    }
   })
 }
 
@@ -203,7 +244,7 @@ const postRequestFavorite = (configObj) => {
   const apiUrl = "http://localhost:3000/api/v1/favorites"
   fetch(apiUrl, configObj)
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((data) => console.log(data.data.attributes))
 }
 
 // const fetchUserData = () => {
@@ -211,24 +252,6 @@ const postRequestFavorite = (configObj) => {
 //     resp.json().then((data) => console.log(data))
 //   )
 // }
-
-const menuMouseInHover = () => {
-  const menuDiv = document.getElementById("menu-div")
-  menuDiv.addEventListener("mouseover", () => {
-    for (let item of menuDiv.children) {
-      item.classList.add("menu-hover")
-    }
-  })
-}
-
-const menuMouseOutHover = () => {
-  const menuDiv = document.getElementById("menu-div")
-  menuDiv.addEventListener("mouseleave", () => {
-    for (let item of menuDiv.children) {
-      item.classList.remove("menu-hover")
-    }
-  })
-}
 
 // Headlines Class
 class Headlines {
