@@ -9,7 +9,7 @@ window.addEventListener("load", (event) => {
   bookMarkListener()
 
   showLoginListener()
-  loginListener()
+  createUserListener()
   //   fetchUserData()
 
   // searchIconListener()
@@ -21,7 +21,7 @@ window.addEventListener("load", (event) => {
   }, 3000)
 })
 
-const loginListener = () => {
+const createUserListener = () => {
   const loginForm = document.getElementById("login-form")
   const loginFormSubmit = document.getElementById("login-form-submit")
 
@@ -29,15 +29,15 @@ const loginListener = () => {
     e.preventDefault()
     const configObj = {
       method: "POST",
+      credentials: "same-origin",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        credentials: "same-origin",
       },
       body: JSON.stringify({
         username: loginForm.username.value,
         password: loginForm.password.value,
-        // password_confirmation: loginForm.password_confirmation.value,
+        password_confirmation: loginForm.password_confirmation.value,
       }),
     }
     createUserFetch(configObj)
