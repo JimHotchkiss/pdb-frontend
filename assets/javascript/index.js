@@ -10,6 +10,7 @@ window.addEventListener("load", (event) => {
   bookMarkListener()
 
   showLoginListener()
+  showCreateUserListener()
   userLoginListener()
   createUserListener()
   populateDOMWithHeadlines()
@@ -20,6 +21,19 @@ window.addEventListener("load", (event) => {
     showHomePage()
   }, 3000)
 })
+
+const showCreateUserListener = () => {
+  const registerOptionDiv = document.getElementById("register-option-div")
+  registerOptionDiv.addEventListener("click", () => {
+    hideLogin()
+    showRegisterUserDiv()
+  })
+}
+
+const showRegisterUserDiv = () => {
+  const signUpDiv = document.getElementById("signup-div")
+  signUpDiv.classList.add("signup-div-show")
+}
 
 const userLoginListener = (e) => {
   const submitForm = document.getElementById("login-form-submit")
@@ -67,10 +81,11 @@ const hideLogin = () => {
 }
 
 const createUserListener = () => {
-  const loginForm = document.getElementById("signup-form")
-  const loginFormSubmit = document.getElementById("signup-form-submit")
+  const signUpForm = document.getElementById("signup-form")
+  const signUpFormSubmit = document.getElementById("signup-form-submit")
 
-  loginFormSubmit.addEventListener("click", (e) => {
+  signUpFormSubmit.addEventListener("click", (e) => {
+    console.log()
     e.preventDefault()
     const configObj = {
       method: "POST",
@@ -80,9 +95,9 @@ const createUserListener = () => {
         Accept: "application/json",
       },
       body: JSON.stringify({
-        username: loginForm.username.value,
-        password: loginForm.password.value,
-        // password_confirmation: loginForm.password_confirmation.value,
+        username: signUpForm.username.value,
+        password: signUpForm.password.value,
+        password_confirmation: signUpForm.password_confirmation.value,
       }),
     }
     createUserFetch(configObj)
@@ -101,9 +116,22 @@ const createUserFetch = (configObj) => {
       } else {
         showNewsBody(data)
         deleteUserFormInfo()
+        hideUserRegistration()
       }
     })
     .catch((error) => console.log(error))
+}
+
+const hideUserRegistration = () => {
+  const signUpDiv = document.getElementById("signup-div")
+  signUpDiv.classList.remove("signup-div-show")
+}
+
+const deleteUserFormInfo = () => {
+  const userForm = document.getElementById("login-form")
+  ;(userForm.username.value = ""),
+    (userForm.password.value = ""),
+    (userForm.password_confirmation.value = "")
 }
 
 const clearLoginFromData = () => {

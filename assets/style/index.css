@@ -312,6 +312,12 @@ body {
     display:none;
   }
 
+  .signup-div.signup-div-show {
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+  }
+
   .register-option-div {
     text-align: center;
     font-size: 12px;
@@ -356,6 +362,10 @@ body {
 
   .login-title-text-div {
     text-align: center;
+  }
+
+  .login-title-div {
+    margin-bottom: 32px;
   }
 
   .login-logo-text-divider {
