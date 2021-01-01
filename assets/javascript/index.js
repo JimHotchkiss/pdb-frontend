@@ -1,8 +1,9 @@
 window.addEventListener("load", (event) => {
   // localStorage.clear()
-  clearNewBodyHtml()
+  // clearNewBodyHtml()
   // fetchHeadlineData()
-  accessLocalStorage()
+
+  // checkUserLogin()
 
   navbarExpandListener()
   menuOnClick()
@@ -10,6 +11,7 @@ window.addEventListener("load", (event) => {
 
   showLoginListener()
   createUserListener()
+  populateDOMWithHeadlines()
   //   fetchUserData()
 
   // searchIconListener()
@@ -20,6 +22,12 @@ window.addEventListener("load", (event) => {
     showHomePage()
   }, 3000)
 })
+
+// const checkUserLogin = () => {
+//   fetch("http://localhost:3000/api/v1/users/current_user")
+//     .then((response) => response.json())
+//     .then((data) => console.log(data))
+// }
 
 const createUserListener = () => {
   const loginForm = document.getElementById("login-form")
@@ -48,8 +56,30 @@ const createUserFetch = (configObj) => {
   const apiUrl = "http://localhost:3000/api/v1/users"
   fetch(apiUrl, configObj)
     .then((response) => response.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+      if (data.username || data.password_confirmation) {
+        // elseif password_confirmation
+        alert(`This username ${data.username}`)
+        showLogin()
+      } else {
+        showNewsBody(data)
+        deleteUserFormInfo()
+      }
+    })
     .catch((error) => console.log(error))
+}
+
+const deleteUserFormInfo = () => {
+  const loginForm = document.getElementById("login-form")
+  ;(loginForm.username.value = ""),
+    (loginForm.password.value = ""),
+    (loginForm.password_confirmation.value = "")
+}
+
+const showNewsBody = (data) => {
+  console.log(data)
+  const newsBodyDiv = document.getElementById("news-body")
+  newsBodyDiv.classList.remove("news-body-hide")
 }
 
 // const closeSearchWindowListener = () => {
@@ -71,7 +101,7 @@ const createUserFetch = (configObj) => {
 const showLoginListener = () => {
   const loginDiv = document.getElementById("login")
   loginDiv.addEventListener("click", () => {
-    hideNewBody()
+    hideNewsBody()
     closeNavbarExpansion()
     resetMenu()
     showLogin()
@@ -95,7 +125,7 @@ const closeNavbarExpansion = () => {
   navBar.classList.remove("navbar-expand")
 }
 
-const hideNewBody = () => {
+const hideNewsBody = () => {
   const newsBodyDiv = document.getElementById("news-body")
   newsBodyDiv.classList.add("news-body-hide")
 }
@@ -137,20 +167,21 @@ const clearNewBodyHtml = () => {
   newsBody.innerText = ""
 }
 
-const accessLocalStorage = () => {
-  const headlines = Headlines.getHeadlinesArray()
+const populateDOMWithHeadlines = (data) => {
+  const headlinesData = Headlines.getHeadlinesArray()
+  console.log(headlinesData)
 
   const newsBody = document.getElementById("news-body")
   let imgUrl
 
-  for (let item in headlines) {
+  for (let item in headlinesData) {
     const headlineContainer = document.createElement("div")
     headlineContainer.setAttribute("class", "headline-container")
     if (item == 0) {
       headlineContainer.setAttribute("id", "headline-container-first")
     }
-    if (headlines[item].image !== undefined) {
-      imgUrl = headlines[item].image.thumbnail.contentUrl
+    if (headlinesData[item].image !== undefined) {
+      imgUrl = headlinesData[item].image.thumbnail.contentUrl
     } else {
       imgUrl = "./assets/img/no-image.jpg"
     }
@@ -164,7 +195,7 @@ const accessLocalStorage = () => {
     storyTextDiv.setAttribute("class", "story-text-div")
     const storyText = document.createElement("div")
     storyText.setAttribute("class", "story-text")
-    const date = headlines[item].datePublished
+    const date = headlinesData[item].datePublished
 
     const event = new Date(date)
     let stringEvent = event.toString()
@@ -191,10 +222,10 @@ const accessLocalStorage = () => {
     const borderDiv = document.createElement("div")
     borderDiv.setAttribute("class", "border-div")
 
-    storyText.innerText = headlines[item].name.substring(0, 70) + "..."
+    storyText.innerText = headlinesData[item].name.substring(0, 70) + "..."
     const provider = document.createElement("div")
     provider.setAttribute("class", "provider")
-    provider.innerText = `Source: ${headlines[item].provider[0].name}`
+    provider.innerText = `Source: ${headlinesData[item].provider[0].name}`
     storyTextDiv.appendChild(dateBookMarkDiv)
     storyTextDiv.appendChild(storyText)
     storyTextDiv.appendChild(provider)
@@ -219,13 +250,14 @@ const fetchHeadlineData = () => {
     },
   })
     .then((response) => response.json())
+    // for developoment, populate local storage, to conserve fetch request to api
     .then((data) => assignHeadlines(data.value))
     .catch((err) => {
       console.error(err)
     })
 }
 
-let headlinesArray = []
+// let headlinesArray = []
 
 const assignHeadlines = (headlinesData) => {
   Headlines.addHeadLinesArray(headlinesData)
