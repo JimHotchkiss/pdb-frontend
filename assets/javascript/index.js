@@ -24,10 +24,32 @@ window.addEventListener("load", (event) => {
 const loginListener = () => {
   const loginForm = document.getElementById("login-form")
   const loginFormSubmit = document.getElementById("login-form-submit")
+
   loginFormSubmit.addEventListener("click", (e) => {
     e.preventDefault()
-    console.log(loginForm.username.value, loginForm.password.value)
+    const configObj = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        credentials: "same-origin",
+      },
+      body: JSON.stringify({
+        username: loginForm.username.value,
+        password: loginForm.password.value,
+        // password_confirmation: loginForm.password_confirmation.value,
+      }),
+    }
+    createUserFetch(configObj)
   })
+}
+
+const createUserFetch = (configObj) => {
+  const apiUrl = "http://localhost:3000/api/v1/users"
+  fetch(apiUrl, configObj)
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error))
 }
 
 // const closeSearchWindowListener = () => {
