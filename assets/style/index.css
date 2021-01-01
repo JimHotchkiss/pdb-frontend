@@ -308,6 +308,24 @@ body {
    
   }
 
+  .signup-div {
+    display:none;
+  }
+
+  .register-option-div {
+    text-align: center;
+    font-size: 12px;
+    color: #E5383B;
+    font-weight: 100;
+    margin-top: 16px;
+    opacity: 0.8;
+  }
+
+  .register-option-div:hover{
+    cursor: pointer;
+   
+  }
+
   .login-div.login-div-show {
     display: flex;
     flex-direction: column;
@@ -318,10 +336,6 @@ body {
     margin-top: 42px;
   }
 
-  /* .login-title-div {
-    max-width: 70%;
-    margin: 0 auto;
-  } */
   .login-pdb-logo {
     width: 280px;
     height: 160px;

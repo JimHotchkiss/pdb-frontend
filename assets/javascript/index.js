@@ -10,12 +10,10 @@ window.addEventListener("load", (event) => {
   bookMarkListener()
 
   showLoginListener()
+  userLoginListener()
   createUserListener()
   populateDOMWithHeadlines()
   //   fetchUserData()
-
-  // searchIconListener()
-  // closeSearchWindowListener()
 
   setTimeout(() => {
     hideSplashPage()
@@ -23,15 +21,54 @@ window.addEventListener("load", (event) => {
   }, 3000)
 })
 
-// const checkUserLogin = () => {
-//   fetch("http://localhost:3000/api/v1/users/current_user")
-//     .then((response) => response.json())
-//     .then((data) => console.log(data))
-// }
+const userLoginListener = (e) => {
+  const submitForm = document.getElementById("login-form-submit")
+  const loginForm = document.getElementById("login-form")
+  submitForm.addEventListener("click", (e) => {
+    e.preventDefault()
+
+    const loginObj = {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        username: loginForm.username.value,
+        password: loginForm.password.value,
+      }),
+    }
+
+    loginUser(loginObj)
+  })
+}
+
+const loginUser = (loginObj) => {
+  const loginUrl = "http://localhost:3000/api/v1/users/login"
+
+  fetch(loginUrl, loginObj)
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        alert(data.error)
+      } else {
+        alert(`Welcome, ${data.username}. You're logged in.`)
+        hideLogin()
+        showNewsBody()
+        clearLoginFromData()
+      }
+    })
+}
+
+const hideLogin = () => {
+  const loginDiv = document.getElementById("login-div")
+  loginDiv.classList.remove("login-div-show")
+}
 
 const createUserListener = () => {
-  const loginForm = document.getElementById("login-form")
-  const loginFormSubmit = document.getElementById("login-form-submit")
+  const loginForm = document.getElementById("signup-form")
+  const loginFormSubmit = document.getElementById("signup-form-submit")
 
   loginFormSubmit.addEventListener("click", (e) => {
     e.preventDefault()
@@ -45,7 +82,7 @@ const createUserListener = () => {
       body: JSON.stringify({
         username: loginForm.username.value,
         password: loginForm.password.value,
-        password_confirmation: loginForm.password_confirmation.value,
+        // password_confirmation: loginForm.password_confirmation.value,
       }),
     }
     createUserFetch(configObj)
@@ -69,34 +106,15 @@ const createUserFetch = (configObj) => {
     .catch((error) => console.log(error))
 }
 
-const deleteUserFormInfo = () => {
+const clearLoginFromData = () => {
   const loginForm = document.getElementById("login-form")
-  ;(loginForm.username.value = ""),
-    (loginForm.password.value = ""),
-    (loginForm.password_confirmation.value = "")
+  ;(loginForm.username.value = ""), (loginForm.password.value = "")
 }
 
-const showNewsBody = (data) => {
-  console.log(data)
+const showNewsBody = () => {
   const newsBodyDiv = document.getElementById("news-body")
   newsBodyDiv.classList.remove("news-body-hide")
 }
-
-// const closeSearchWindowListener = () => {
-//   const closeSearchWindow = document.getElementById("search-window-close")
-//   closeSearchWindow.addEventListener("click", () => {
-//     const searchWindow = document.getElementById("search-window")
-//     searchWindow.classList.remove("search-window-expand")
-//   })
-// }
-
-// const searchIconListener = () => {
-//   const searchIcon = document.getElementById("nav-search-icon")
-//   searchIcon.addEventListener("click", () => {
-//     const searchWindow = document.getElementById("search-window")
-//     searchWindow.classList.add("search-window-expand")
-//   })
-// }
 
 const showLoginListener = () => {
   const loginDiv = document.getElementById("login")
@@ -169,8 +187,6 @@ const clearNewBodyHtml = () => {
 
 const populateDOMWithHeadlines = (data) => {
   const headlinesData = Headlines.getHeadlinesArray()
-  console.log(headlinesData)
-
   const newsBody = document.getElementById("news-body")
   let imgUrl
 

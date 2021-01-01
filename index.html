@@ -46,7 +46,34 @@
            </div>
            <!-- News body-->
            <div id="news-body" class="news-body"></div>
+<!-- Login-->
            <div id="login-div" class="login-div">
+            <div class="login-title-div">
+                <div class="login-pdb-logo"></div>
+                <div class="login-logo-text-divider"></div>
+                <div class="login-title-text-div">
+                   
+                    <div class="login-title-subtext">Login</div>
+                </div>
+            </div>
+         <form id="login-form" class="login-form">
+             <div class="username-div">
+                 <label class="login-label" for="Username">Enter your username</label>
+                 <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+             </div>
+             <div class="password-div">
+                 <label class="login-label" for="Password">Enter your password</label>
+             <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+             </div>
+             <input class="login-form-submit" type="submit" value="Login" id="login-form-submit">
+           </form>
+           <div class="register-option-div" id="register-option-div">
+               Not registered? Signup here.
+           </div>
+        </div>
+<!-- End Login-->
+<!-- Signup-->
+           <div id="signup-div" class="signup-div">
                <div class="login-title-div">
                    <div class="login-pdb-logo"></div>
                    <div class="login-logo-text-divider"></div>
@@ -55,22 +82,23 @@
                        <div class="login-title-subtext">Create your account</div>
                    </div>
                </div>
-            <form id="login-form" class="login-form">
+            <form id="signup-form" class="signup-form">
                 <div class="username-div">
                     <label class="login-label" for="Username">Enter your username</label>
-                    <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+                    <input type="text" name="username" id="username-signup-field" class="login-form-field" placeholder="Username">
                 </div>
                 <div class="password-div">
                     <label class="login-label" for="Password">Enter your password</label>
-                <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+                <input type="password" name="password" id="password-signup-field" class="login-form-field" placeholder="Password">
                 </div>
                 <div class="password-div">
                     <label class="login-label" for="Password">Confirm your password</label>
-                <input type="password" name="password_confirmation" id="confirm-password-field" class="login-form-field" placeholder="Confirm password">
+                <input type="password" name="password_confirmation" id="confirm-password-signup-field" class="login-form-field" placeholder="Confirm password">
                 </div>
-                <input class="login-form-submit" type="submit" value="Login" id="login-form-submit">
+                <input class="login-form-submit" type="submit" value="Register" id="signup-form-submit">
               </form>
            </div>
+           <!-- End Signup-->
        </div>
 
     </div>
