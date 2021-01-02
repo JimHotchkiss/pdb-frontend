@@ -7,7 +7,6 @@ window.addEventListener("load", (event) => {
 
   navbarExpandListener()
   menuOnClick()
-  bookMarkListener()
 
   showLoginListener()
   showCreateUserListener()
@@ -16,10 +15,8 @@ window.addEventListener("load", (event) => {
   populateDOMWithHeadlines()
   //   fetchUserData()
 
-  setTimeout(() => {
-    hideSplashPage()
-    showHomePage()
-  }, 3000)
+  hideSplashPage()
+  showHomePage()
 })
 
 const showCreateUserListener = () => {
@@ -58,23 +55,6 @@ const userLoginListener = (e) => {
   })
 }
 
-const loginUser = (loginObj) => {
-  const loginUrl = "http://localhost:3000/api/v1/users/login"
-
-  fetch(loginUrl, loginObj)
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.error) {
-        alert(data.error)
-      } else {
-        alert(`Welcome, ${data.username}. You're logged in.`)
-        hideLogin()
-        showNewsBody()
-        clearLoginFromData()
-      }
-    })
-}
-
 const hideLogin = () => {
   const loginDiv = document.getElementById("login-div")
   loginDiv.classList.remove("login-div-show")
@@ -104,15 +84,35 @@ const createUserListener = () => {
   })
 }
 
+const loginUser = (loginObj) => {
+  const loginUrl = "http://localhost:3000/api/v1/users/login"
+
+  fetch(loginUrl, loginObj)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+      if (data.error) {
+        alert(data.error)
+      } else {
+        console.log(data)
+        alert(`Welcome, ${data.username}. You're logged in.`)
+        hideLogin()
+        showNewsBody()
+        clearLoginFromData()
+      }
+    })
+}
+
 const createUserFetch = (configObj) => {
   const apiUrl = "http://localhost:3000/api/v1/users"
   fetch(apiUrl, configObj)
     .then((response) => response.json())
     .then((data) => {
-      if (data.username || data.password_confirmation) {
-        // elseif password_confirmation
+      if (data.username) {
         alert(`This username ${data.username}`)
         showLogin()
+      } else if (data.password_confirmation) {
+        alert("The passwords provided don't match")
       } else {
         showNewsBody(data)
         deleteUserFormInfo()
@@ -177,12 +177,11 @@ const hideNewsBody = () => {
 }
 
 const bookMarkListener = () => {
-  bookMarkDivs = document.getElementsByClassName("bookmark-div")
-  for (let item of bookMarkDivs) {
-    item.addEventListener("click", (e) => {
-      showBookmarkSelected(item)
-      const markedStoryId = e.target.dataset.id
-      findStory(markedStoryId)
+  const bookmarkDivs = document.getElementsByClassName("bookmark-div")
+  for (let item of bookmarkDivs) {
+    item.addEventListener("click", () => {
+      const dataId = item.dataset.id
+      findStory(dataId)
     })
   }
 }
@@ -278,6 +277,7 @@ const populateDOMWithHeadlines = (data) => {
     newsBody.appendChild(headlineContainer)
     newsBody.appendChild(borderDiv)
   }
+  bookMarkListener()
 }
 
 const configFile = config.MY_KEY
@@ -302,7 +302,6 @@ const fetchHeadlineData = () => {
 }
 
 // let headlinesArray = []
-
 const assignHeadlines = (headlinesData) => {
   Headlines.addHeadLinesArray(headlinesData)
 }
@@ -319,6 +318,7 @@ const showHomePage = () => {
 
 const findStory = (markedStoryId) => {
   const headlines = Headlines.getHeadlinesArray()
+  console.log(headlines)
   let headLinesObj
   for (let item in headlines) {
     if (item === markedStoryId) {
@@ -336,10 +336,10 @@ const findStory = (markedStoryId) => {
   // Create config object
   const configObj = {
     method: "POST",
+    credentials: "same-origin",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      credentials: "same-origin",
     },
     body: JSON.stringify({
       title: headLinesObj.name,
@@ -358,7 +358,7 @@ const postRequestFavorite = (configObj) => {
   const apiUrl = "http://localhost:3000/api/v1/favorites"
   fetch(apiUrl, configObj)
     .then((response) => response.json())
-    .then((data) => console.log(data.data.attributes))
+    .then((data) => console.log(data))
 }
 
 // const fetchUserData = () => {
