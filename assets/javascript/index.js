@@ -7,6 +7,9 @@ window.addEventListener("load", (event) => {
 
   navbarExpandListener()
   menuOnClick()
+  // currentUser()
+
+  favoritesListener()
 
   showLoginListener()
   showCreateUserListener()
@@ -18,6 +21,20 @@ window.addEventListener("load", (event) => {
   hideSplashPage()
   showHomePage()
 })
+
+const favoritesListener = () => {
+  const favoriteDiv = document.getElementById("favorites")
+  favoriteDiv.addEventListener("click", () => {
+    currentUser()
+  })
+}
+
+const currentUser = () => {
+  const currentUserUrl = "http://localhost:3000/api/v1/users/current_user"
+  fetch(currentUserUrl)
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+}
 
 const showCreateUserListener = () => {
   const registerOptionDiv = document.getElementById("register-option-div")
@@ -90,12 +107,12 @@ const loginUser = (loginObj) => {
   fetch(loginUrl, loginObj)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data)
       if (data.error) {
         alert(data.error)
       } else {
-        console.log(data)
-        alert(`Welcome, ${data.username}. You're logged in.`)
+        User.addUserLogin(data)
+        User.addUserData(data)
+        alert(`Welcome, ${data.user.username}. You're logged in.`)
         hideLogin()
         showNewsBody()
         clearLoginFromData()
@@ -366,6 +383,21 @@ const postRequestFavorite = (configObj) => {
 //     resp.json().then((data) => console.log(data))
 //   )
 // }
+
+// User class
+class User {
+  // Add user login
+  static addUserLogin(userData) {
+    localStorage.setItem("user_id", JSON.stringify(userData.user_id))
+
+    // JSON stringify converts an object to a string
+    // localStorage.setItem("user_id", JSON.stringify(userId))
+  }
+
+  static addUserData(userData) {
+    localStorage.setItem("username", JSON.stringify(userData.user.username))
+  }
+}
 
 // Headlines Class
 class Headlines {
