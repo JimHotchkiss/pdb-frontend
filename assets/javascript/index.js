@@ -70,11 +70,12 @@ const showRegisterUserDiv = () => {
 userLogoutListener = () => {
   const logout = document.getElementById("logout")
   logout.addEventListener("click", () => {
+    User.removeUserData()
     const logoutObj = {
       method: "DELETE",
       credentials: "same-origin",
     }
-    logoutUser(logoutObj)
+    // logoutUser(logoutObj)
   })
 }
 
@@ -130,7 +131,6 @@ const createUserListener = () => {
 }
 
 const loginUser = (loginObj) => {
-  console.log("follow loginuser")
   const loginUrl = "http://localhost:3000/api/v1/users/login"
 
   fetch(loginUrl, loginObj)
@@ -152,19 +152,19 @@ const loginUser = (loginObj) => {
     })
 }
 
-const logoutUser = (logoutConfig) => {
-  const logoutUrl = "http://localhost:3000/api/v1/users/logout"
+// const logoutUser = (logoutConfig) => {
+//   const logoutUrl = "http://localhost:3000/api/v1/users/logout"
 
-  fetch(logoutUrl, logoutConfig)
-    .then((response) => response.json())
-    .then((data) => {
-      User.removeUserData()
-      alert(data.notice)
-      displayLoginOrLogout()
-      closeNavbarExpansion()
-      resetMenu()
-    })
-}
+//   fetch(logoutUrl, logoutConfig)
+//     .then((response) => response.json())
+//     .then((data) => {
+//       User.removeUserData()
+//       alert(data.notice)
+//       displayLoginOrLogout()
+//       closeNavbarExpansion()
+//       resetMenu()
+//     })
+// }
 
 const createUserFetch = (configObj) => {
   const apiUrl = "http://localhost:3000/api/v1/users"
