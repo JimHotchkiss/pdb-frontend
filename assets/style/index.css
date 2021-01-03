@@ -229,7 +229,7 @@ body {
 
 
 
-  img {
+img {
     width: 100px;
     height: 100px;
     background-size: 100px;
@@ -438,3 +438,6 @@ body {
   
 }
 
+.selected-news-container {
+  margin-top: 100px;
+}

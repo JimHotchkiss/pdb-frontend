@@ -1,27 +1,43 @@
 window.addEventListener("load", (event) => {
   // localStorage.clear()
-  // clearNewBodyHtml()
-  // fetchHeadlineData()
+  // clearNewsBodyHtml()
 
-  // checkUserLogin()
+  // Just for development to prevent fetch request
+
+  if (Headlines.getHeadlinesArray().length !== 0) {
+    populateDOMWithHeadlines()
+  }
 
   navbarExpandListener()
   menuOnClick()
   displayLoginOrLogout()
-
-  favoritesListener()
 
   showLoginListener()
   showCreateUserListener()
   userLoginListener()
   userLogoutListener()
   createUserListener()
-  populateDOMWithHeadlines()
-  //   fetchUserData()
 
   hideSplashPage()
   showHomePage()
 })
+
+const storyTextListener = () => {
+  const storyText = document.getElementsByClassName("story-text")
+  for (let item of storyText) {
+    item.addEventListener("click", () => {
+      if (User.getUserLogin() !== null) {
+        const storyId = item.parentElement.parentElement.dataset.storyid
+        findStory(storyId)
+      } else {
+        console.log("show")
+        alert("Please, login to view full story")
+        hideNewsBody()
+        showLogin()
+      }
+    })
+  }
+}
 
 const displayLoginOrLogout = () => {
   const currentUser = User.getUserLogin()
@@ -36,13 +52,6 @@ const displayLoginOrLogout = () => {
     const logoutDiv = document.getElementById("logout")
     logoutDiv.classList.add("logout-text-hide")
   }
-}
-
-const favoritesListener = () => {
-  const favoriteDiv = document.getElementById("favorites")
-  favoriteDiv.addEventListener("click", () => {
-    currentUser()
-  })
 }
 
 const showCreateUserListener = () => {
@@ -121,6 +130,7 @@ const createUserListener = () => {
 }
 
 const loginUser = (loginObj) => {
+  console.log("follow loginuser")
   const loginUrl = "http://localhost:3000/api/v1/users/login"
 
   fetch(loginUrl, loginObj)
@@ -129,10 +139,11 @@ const loginUser = (loginObj) => {
       if (data.error) {
         alert(data.error)
       } else {
-        console.log(data)
         User.addUserLogin(data)
         User.addUserData(data)
-        alert(`Welcome, ${data.user.username}. You're logged in.`)
+        alert(
+          `Welcome, ${data.user.data.attributes.username}. You're logged in.`
+        )
         hideLogin()
         showNewsBody()
         clearLoginFromData()
@@ -150,6 +161,8 @@ const logoutUser = (logoutConfig) => {
       User.removeUserData()
       alert(data.notice)
       displayLoginOrLogout()
+      closeNavbarExpansion()
+      resetMenu()
     })
 }
 
@@ -208,6 +221,7 @@ const showLoginListener = () => {
 
 const showLogin = () => {
   const loginDiv = document.getElementById("login-div")
+  console.log(loginDiv)
   loginDiv.classList.add("login-div-show")
 }
 
@@ -259,19 +273,22 @@ const menuOnClick = () => {
   })
 }
 
-const clearNewBodyHtml = () => {
+const clearNewsBodyHtml = () => {
   const newsBody = document.getElementById("news-body")
   newsBody.innerText = ""
+  // fetchHeadlineData()
 }
 
 const populateDOMWithHeadlines = (data) => {
   const headlinesData = Headlines.getHeadlinesArray()
+  console.log(headlinesData)
   const newsBody = document.getElementById("news-body")
   let imgUrl
 
   for (let item in headlinesData) {
     const headlineContainer = document.createElement("div")
     headlineContainer.setAttribute("class", "headline-container")
+    headlineContainer.setAttribute("data-storyId", item)
     if (item == 0) {
       headlineContainer.setAttribute("id", "headline-container-first")
     }
@@ -329,7 +346,8 @@ const populateDOMWithHeadlines = (data) => {
     newsBody.appendChild(headlineContainer)
     newsBody.appendChild(borderDiv)
   }
-  bookMarkListener()
+  // bookMarkListener()
+  storyTextListener()
 }
 
 const configFile = config.MY_KEY
@@ -353,9 +371,9 @@ const fetchHeadlineData = () => {
     })
 }
 
-// let headlinesArray = []
 const assignHeadlines = (headlinesData) => {
   Headlines.addHeadLinesArray(headlinesData)
+  // populateDOMWithHeadlines()
 }
 
 const hideSplashPage = () => {
@@ -370,54 +388,71 @@ const showHomePage = () => {
 
 const findStory = (markedStoryId) => {
   const headlines = Headlines.getHeadlinesArray()
-  console.log(headlines)
   let headLinesObj
   for (let item in headlines) {
     if (item === markedStoryId) {
       headLinesObj = headlines[item]
+      hideNewsBody()
+      showSelectedStory(headLinesObj)
     }
   }
   // Assign image Url
-  let imageUlr
-  if (headLinesObj.image !== null) {
-    imageUrl = headLinesObj.image.thumbnail.contentUrl
-  } else {
-    imageUlr = "./assets/img/no-image.jpg"
-  }
+  // let imageUlr
+  // if (headLinesObj.image !== null) {
+  //   imageUrl = headLinesObj.image.thumbnail.contentUrl
+  // } else {
+  //   imageUlr = "./assets/img/no-image.jpg"
+  // }
 
   // Create config object
-  const configObj = {
-    method: "POST",
-    credentials: "same-origin",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      title: headLinesObj.name,
-      date_published: headLinesObj.datePublished,
-      description: headLinesObj.description,
-      image: imageUrl,
-      provider: headLinesObj.provider[0].name,
-      url: headLinesObj.url,
-    }),
-  }
-  postRequestFavorite(configObj)
+  // const configObj = {
+  //   method: "POST",
+  //   credentials: "same-origin",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     Accept: "application/json",
+  //   },
+  //   body: JSON.stringify({
+  //     title: headLinesObj.name,
+  //     date_published: headLinesObj.datePublished,
+  //     description: headLinesObj.description,
+  //     image: imageUrl,
+  //     provider: headLinesObj.provider[0].name,
+  //     url: headLinesObj.url,
+  //   }),
+  // }
 }
 
-const postRequestFavorite = (configObj) => {
-  // console.log(configObj.body)
-  const apiUrl = "http://localhost:3000/api/v1/favorites"
-  fetch(apiUrl, configObj)
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-}
-
-// const fetchUserData = () => {
-//   fetch("http://localhost:3000/api/v1/favorites").then((resp) =>
-//     resp.json().then((data) => console.log(data))
-//   )
+// const postRequestFavorite = (configObj) => {
+//   console.log("post request favorites")
+//   const apiUrl = "http://localhost:3000/api/v1/favorites"
+//   fetch(apiUrl, configObj)
+//     .then((response) => response.json())
+//     .then((data) => console.log(data))
 // }
+
+const showSelectedStory = (headLinesObj) => {
+  const selectedNewsBody = document.getElementById("selected-news-body")
+  const selectedNewsContainer = document.createElement("div")
+  selectedNewsContainer.setAttribute("class", "selected-news-container")
+
+  const selectedNewsImg = document.createElement("img")
+  selectedNewsImg.setAttribute("class", "selected-news-img")
+
+  let imgUrl
+
+  if (headLinesObj.image === undefined) {
+    imgUrl = "./assets/img/no-image.jpg"
+  } else {
+    // imgUrl = headLinesObj.provider[0].image.thumbnail.contentUrl
+    imgUrl = headLinesObj.image.thumbnail.contentUrl
+  }
+
+  selectedNewsImg.setAttribute("src", imgUrl)
+
+  selectedNewsContainer.appendChild(selectedNewsImg)
+  selectedNewsBody.appendChild(selectedNewsContainer)
+}
 
 // User class
 class User {
