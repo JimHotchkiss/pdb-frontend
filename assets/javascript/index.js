@@ -7,13 +7,14 @@ window.addEventListener("load", (event) => {
 
   navbarExpandListener()
   menuOnClick()
-  // currentUser()
+  displayLoginOrLogout()
 
   favoritesListener()
 
   showLoginListener()
   showCreateUserListener()
   userLoginListener()
+  userLogoutListener()
   createUserListener()
   populateDOMWithHeadlines()
   //   fetchUserData()
@@ -22,18 +23,26 @@ window.addEventListener("load", (event) => {
   showHomePage()
 })
 
+const displayLoginOrLogout = () => {
+  const currentUser = User.getUserLogin()
+  if (currentUser !== null) {
+    const loginDiv = document.getElementById("login")
+    loginDiv.classList.add("login-text-hide")
+    const logoutDiv = document.getElementById("logout")
+    logoutDiv.classList.remove("logout-text-hide")
+  } else {
+    const loginDiv = document.getElementById("login")
+    loginDiv.classList.remove("login-text-hide")
+    const logoutDiv = document.getElementById("logout")
+    logoutDiv.classList.add("logout-text-hide")
+  }
+}
+
 const favoritesListener = () => {
   const favoriteDiv = document.getElementById("favorites")
   favoriteDiv.addEventListener("click", () => {
     currentUser()
   })
-}
-
-const currentUser = () => {
-  const currentUserUrl = "http://localhost:3000/api/v1/users/current_user"
-  fetch(currentUserUrl)
-    .then((response) => response.json())
-    .then((data) => console.log(data))
 }
 
 const showCreateUserListener = () => {
@@ -47,6 +56,17 @@ const showCreateUserListener = () => {
 const showRegisterUserDiv = () => {
   const signUpDiv = document.getElementById("signup-div")
   signUpDiv.classList.add("signup-div-show")
+}
+
+userLogoutListener = () => {
+  const logout = document.getElementById("logout")
+  logout.addEventListener("click", () => {
+    const logoutObj = {
+      method: "DELETE",
+      credentials: "same-origin",
+    }
+    logoutUser(logoutObj)
+  })
 }
 
 const userLoginListener = (e) => {
@@ -82,7 +102,6 @@ const createUserListener = () => {
   const signUpFormSubmit = document.getElementById("signup-form-submit")
 
   signUpFormSubmit.addEventListener("click", (e) => {
-    console.log()
     e.preventDefault()
     const configObj = {
       method: "POST",
@@ -110,13 +129,27 @@ const loginUser = (loginObj) => {
       if (data.error) {
         alert(data.error)
       } else {
+        console.log(data)
         User.addUserLogin(data)
         User.addUserData(data)
         alert(`Welcome, ${data.user.username}. You're logged in.`)
         hideLogin()
         showNewsBody()
         clearLoginFromData()
+        displayLoginOrLogout()
       }
+    })
+}
+
+const logoutUser = (logoutConfig) => {
+  const logoutUrl = "http://localhost:3000/api/v1/users/logout"
+
+  fetch(logoutUrl, logoutConfig)
+    .then((response) => response.json())
+    .then((data) => {
+      User.removeUserData()
+      alert(data.notice)
+      displayLoginOrLogout()
     })
 }
 
@@ -146,6 +179,8 @@ const hideUserRegistration = () => {
 
 const deleteUserFormInfo = () => {
   const userForm = document.getElementById("login-form")
+
+  console.log(userForm)
   ;(userForm.username.value = ""),
     (userForm.password.value = ""),
     (userForm.password_confirmation.value = "")
@@ -396,6 +431,37 @@ class User {
 
   static addUserData(userData) {
     localStorage.setItem("username", JSON.stringify(userData.user.username))
+  }
+
+  static removeUserData() {
+    let currentUser = User.getUserLogin()
+    console.log(currentUser)
+    currentUser = null
+    localStorage.setItem("user_id", JSON.stringify(currentUser))
+  }
+
+  static getUserLogin() {
+    let currentUserId
+
+    if (localStorage.getItem("user_id") === null) {
+      currentUserId = null
+    } else {
+      // JSON.parse converts a string into an object
+      currentUserId = JSON.parse(localStorage.getItem("user_id"))
+    }
+    return currentUserId
+  }
+
+  static getUserData() {
+    let currentUserData
+
+    if (localStorage.getItem("username") === null) {
+      currentUserData = null
+    } else {
+      // JSON.parse converts a string into an object
+      currentUserData = JSON.parse(localStorage.getItem("username"))
+    }
+    return currentUserData
   }
 }
 

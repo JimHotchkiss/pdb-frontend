@@ -78,6 +78,14 @@ body {
      max-width: 130px;
      margin: 30px 0px 0px 24px;
   }
+
+  .logout-text.logout-text-hide {
+    display: none;
+  }
+
+  .login-text.login-text-hide {
+    display: none;
+  }
   .navbar-submenu p {
       
       color: #161A1D;
