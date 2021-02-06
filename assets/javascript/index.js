@@ -26,6 +26,7 @@ const storyTextListener = () => {
   const storyText = document.getElementsByClassName("story-text")
   for (let item of storyText) {
     item.addEventListener("click", () => {
+      checkApiUserLogin()
       if (User.getUserLogin() !== null) {
         const storyId = item.parentElement.parentElement.dataset.storyid
         findStory(storyId)
@@ -37,6 +38,12 @@ const storyTextListener = () => {
       }
     })
   }
+}
+
+const checkApiUserLogin = () => {
+  fetch("http://localhost:3000/api/v1/users/current_user")
+    .then((response) => response.json())
+    .then((data) => console.log(data))
 }
 
 const displayLoginOrLogout = () => {
@@ -73,9 +80,9 @@ userLogoutListener = () => {
     User.removeUserData()
     const logoutObj = {
       method: "DELETE",
-      credentials: "same-origin",
+      credentials: "include",
     }
-    // logoutUser(logoutObj)
+    logoutUser(logoutObj)
   })
 }
 
@@ -131,6 +138,7 @@ const createUserListener = () => {
 }
 
 const loginUser = (loginObj) => {
+  console.log("fetch login")
   const loginUrl = "http://localhost:3000/api/v1/users/login"
 
   fetch(loginUrl, loginObj)
@@ -152,19 +160,23 @@ const loginUser = (loginObj) => {
     })
 }
 
-// const logoutUser = (logoutConfig) => {
-//   const logoutUrl = "http://localhost:3000/api/v1/users/logout"
+const logoutUser = (logoutConfig) => {
+  User.removeUserData()
+  displayLoginOrLogout()
+  closeNavbarExpansion()
+  resetMenu()
+  // const logoutUrl = "http://localhost:3000/api/v1/users/logout"
 
-//   fetch(logoutUrl, logoutConfig)
-//     .then((response) => response.json())
-//     .then((data) => {
-//       User.removeUserData()
-//       alert(data.notice)
-//       displayLoginOrLogout()
-//       closeNavbarExpansion()
-//       resetMenu()
-//     })
-// }
+  // fetch(logoutUrl, logoutConfig)
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     User.removeUserData()
+  //     alert(data.notice)
+  //     displayLoginOrLogout()
+  //     closeNavbarExpansion()
+  //     resetMenu()
+  //   })
+}
 
 const createUserFetch = (configObj) => {
   const apiUrl = "http://localhost:3000/api/v1/users"
